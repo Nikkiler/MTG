@@ -1,17 +1,19 @@
 import java.util.Scanner;
 
+import static java.lang.String.format;
+
 public class Player {
     private int life = 20;
     private int mana = 0;
 
     public void tapLand(Battlefield battlefield, boolean player) {
         int currentLands = battlefield.getLands(player);
-        System.out.println(STR."You can tap \{currentLands} Lands");
+        System.out.println("You can tap " + currentLands + " Lands");
         Scanner scanner = new Scanner(System.in);
         System.out.println("How many land would you like to tap (please enter an integer)?");
         int landTapper = scanner.nextInt();
         while (landTapper > currentLands) {
-            System.out.println(STR."Please enter a number equal to \{currentLands} or lower (please enter an integer)?");
+            System.out.println("Please enter a number equal to " + currentLands + " or lower (please enter an integer)?");
             landTapper = scanner.nextInt();
         }
         currentLands -= landTapper;

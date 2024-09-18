@@ -10,7 +10,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
         int choice = scanner.nextInt();
-        while (choice != 1 || choice != 2) {
+        while ((choice != 1) && (choice != 2)) {
             System.out.println("Error Invalid Input");
             System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
             choice = scanner.nextInt();

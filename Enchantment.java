@@ -2,10 +2,9 @@ public class Enchantment {
     private int attackCounter;
     private int toughnessCounter;
     private int manaCost;
-    public void assignCounters(int attackCounter, int toughnessCounter, int manaCost) {
+    public void assignCounters(int attackCounter, int toughnessCounter) {
         this.attackCounter = attackCounter;
         this.toughnessCounter = toughnessCounter;
-        this.manaCost = manaCost;
     }
     public void addCounterToCreature(creature Creature) {
         Creature.putCounter(attackCounter, toughnessCounter);
