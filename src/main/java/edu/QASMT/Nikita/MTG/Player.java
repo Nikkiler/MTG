@@ -1,4 +1,4 @@
-package org.example;
+package edu.QASMT.Nikita.MTG;
 
 import java.util.Scanner;
 

@@ -1,13 +1,13 @@
-package org.example;
+package edu.QASMT.Nikita.MTG;
 
 import java.util.ArrayList;
 
 public class Battlefield {
-    ArrayList<creature> player1Battlefield = new ArrayList<creature>();
-    ArrayList<creature> player2Battlefield = new ArrayList<creature>();
-    ArrayList<land> player1BattlefieldLands = new ArrayList<land>();
-    ArrayList<land> player2BattlefieldLands = new ArrayList<land>();
-    public void addCreatureToBattleField(creature Creature, Deck deck, Player player, boolean playerDecider) {
+    ArrayList<Creature> player1Battlefield = new ArrayList<Creature>();
+    ArrayList<Creature> player2Battlefield = new ArrayList<Creature>();
+    ArrayList<Land> player1BattlefieldLands = new ArrayList<Land>();
+    ArrayList<Land> player2BattlefieldLands = new ArrayList<Land>();
+    public void addCreatureToBattleField(Creature Creature, Deck deck, Player player, boolean playerDecider) {
         deck.destroyCreature(Creature);
         player.takeMana(Creature.getManaCost());
         if (playerDecider) {
@@ -16,7 +16,7 @@ public class Battlefield {
             player2Battlefield.add(Creature);
         }
     }
-    public void addLandToBattleField(land lands, Deck deck, boolean playerDecider) {
+    public void addLandToBattleField(Land lands, Deck deck, boolean playerDecider) {
         deck.destroyLand(lands);
         if (playerDecider) {
             player1BattlefieldLands.add(lands);
@@ -24,14 +24,14 @@ public class Battlefield {
             player2BattlefieldLands.add(lands);
         }
     }
-    public void destroyCreatureToBattleField(creature Creature, boolean playerDecider) {
+    public void destroyCreatureToBattleField(Creature Creature, boolean playerDecider) {
         if (playerDecider) {
             player1Battlefield.remove(Creature);
         } else {
             player2Battlefield.remove(Creature);
         }
     }
-    public void addTokenToBattleField(creature Creature, boolean playerDecider) {
+    public void addTokenToBattleField(Creature Creature, boolean playerDecider) {
         if (playerDecider) {
             player1Battlefield.add(Creature);
         } else {

@@ -1,6 +1,6 @@
-package org.example;
+package edu.QASMT.Nikita.MTG;
 
-public class instant {
+public class Enchantment {
     private int attackCounter;
     private int toughnessCounter;
     private int manaCost;
@@ -8,13 +8,10 @@ public class instant {
         this.attackCounter = attackCounter;
         this.toughnessCounter = toughnessCounter;
     }
-    public void addCounterToCreature(creature Creature) {
+    public void addCounterToCreature(Creature Creature) {
         Creature.putCounter(attackCounter, toughnessCounter);
     }
-    public void takeCounterToCreature(creature Creature) {
+    public void takeCounterFromCreature(Creature Creature) {
         Creature.takeCounter(attackCounter, toughnessCounter);
-    }
-    public void destroyCreature(creature Creature, Battlefield battlefield, boolean player) {
-        battlefield.destroyCreatureToBattleField(Creature, player);
     }
 }

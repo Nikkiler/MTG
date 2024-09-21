@@ -1,6 +1,6 @@
-package org.example;
+package edu.QASMT.Nikita.MTG;
 
-public class creature {
+public class Creature {
     private int toughness;
     private int attack;
     private String name;

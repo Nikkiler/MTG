@@ -1,6 +1,6 @@
-package org.example;
+package edu.QASMT.Nikita.MTG;
 
-public class sorcery {
+public class Sorcery {
     private int attackCounter;
     private int toughnessCounter;
     private int manaCost;
@@ -8,15 +8,15 @@ public class sorcery {
         this.attackCounter = attackCounter;
         this.toughnessCounter = toughnessCounter;
     }
-    public void addCounterToCreature(creature Creature) {
-        Creature.putCounter(attackCounter, toughnessCounter);
+    public void addCounterToCreature(Creature creature) {
+        creature.putCounter(attackCounter, toughnessCounter);
     }
-    public void takeCounterToCreature(creature Creature) {
-        Creature.takeCounter(attackCounter, toughnessCounter);
+    public void takeCounterToCreature(Creature creature) {
+        creature.takeCounter(attackCounter, toughnessCounter);
     }
     public void createTokens(String type, int number, Battlefield battlefield, String name, boolean player) {
         for (int i = 0; i < number; i++) {
-            creature Token = new creature();
+            Creature Token = new Creature();
             Token.assignToken(toughnessCounter, attackCounter, name, type);
             battlefield.addTokenToBattleField(Token, player);
         }
@@ -25,13 +25,13 @@ public class sorcery {
     public void searchLibrary(String type, Deck deck) {
         switch (type) {
             case "Land":
-                land forest = new land();
+                Land forest = new Land();
                 deck.landHand.add(forest);
                 deck.landDeck.remove(forest);
                 break;
         }
     }
-    public void giveTrample(creature Creature) {
-        Creature.giveTrample();
+    public void giveTrample(Creature creature) {
+        creature.giveTrample();
     }
 }

@@ -1,22 +1,22 @@
-package org.example;
+package edu.QASMT.Nikita.MTG;
 
 import java.util.ArrayList;
 
 public class Deck {
     private boolean artifactTaken = false;
     private int randomNum = (int)(Math.random() * 7);
-    public ArrayList<creature> creatureDeck = new ArrayList<creature>();
-    public ArrayList<land> landDeck = new ArrayList<land>();
+    public ArrayList<Creature> creatureDeck = new ArrayList<Creature>();
+    public ArrayList<Land> landDeck = new ArrayList<Land>();
     public ArrayList<Enchantment> enchantmentDeck = new ArrayList<Enchantment>();
-    public ArrayList<instant> instantDeck = new ArrayList<instant>();
-    public ArrayList<sorcery> sorceryDeck = new ArrayList<sorcery>();
+    public ArrayList<Instant> instantDeck = new ArrayList<Instant>();
+    public ArrayList<Sorcery> sorceryDeck = new ArrayList<Sorcery>();
     public ArrayList<Artifact> artifactDeck = new ArrayList<Artifact>();
     private int cardsLeft = 60;
-    public ArrayList<creature> creatureHand = new ArrayList<creature>();
-    public ArrayList<land> landHand = new ArrayList<land>();
+    public ArrayList<Creature> creatureHand = new ArrayList<Creature>();
+    public ArrayList<Land> landHand = new ArrayList<Land>();
     public ArrayList<Enchantment> enchantmentHand = new ArrayList<Enchantment>();
-    public ArrayList<instant> instantHand = new ArrayList<instant>();
-    public ArrayList<sorcery> sorceryHand = new ArrayList<sorcery>();
+    public ArrayList<Instant> instantHand = new ArrayList<Instant>();
+    public ArrayList<Sorcery> sorceryHand = new ArrayList<Sorcery>();
     public ArrayList<Artifact> artifactHand = new ArrayList<Artifact>();
     public void getCard() {
         if (artifactTaken) {
@@ -75,17 +75,17 @@ public class Deck {
                 break;
         }
     }
-    public void destroyCreature(creature Creature) {
+    public void destroyCreature(Creature Creature) {
         creatureHand.remove(Creature);
     }
     public void searchLibrary(String type, Battlefield battlefield, boolean player, Deck deck) {
         if (type.equals("Land")) {
             landDeck.removeLast();
-            land tokenLand = new land();
+            Land tokenLand = new Land();
             battlefield.addLandToBattleField(tokenLand, deck, player);
         }
     }
-    public void destroyLand(land lands) {
+    public void destroyLand(Land lands) {
         landHand.remove(lands);
     }
 

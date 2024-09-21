@@ -1,4 +1,4 @@
-package org.example;
+package edu.QASMT.Nikita.MTG;
 
 import java.util.Scanner;
 
@@ -42,53 +42,53 @@ public class Main {
 
     }
     public static void greenDeck(Deck green) {
-        land forest = new land();
+        Land forest = new Land();
         for (int i = 0; i < 24; i++) {
             green.landDeck.add(forest);
         }
-        creature yevaForceMage = new creature();
+        Creature yevaForceMage = new Creature();
         yevaForceMage.assign(2, 2, "Yeva's forcemage", 3, "Elf Shaman", false, false);
         for (int i = 0; i < 2; i++) {
             green.creatureDeck.add(yevaForceMage);
         }
-        creature woodBornBehemoth = new creature();
+        Creature woodBornBehemoth = new Creature();
         woodBornBehemoth.assign(4, 4, "Woodborn Behemoth", 5, "Elemental", true, false);
         green.creatureDeck.add(woodBornBehemoth);
-        creature stingerFlingSpider = new creature();
+        Creature stingerFlingSpider = new Creature();
         stingerFlingSpider.assign(5, 2, "Stingerfling Spider", 5, "Spider", false, false);
         green.creatureDeck.add(stingerFlingSpider);
-        creature rumblingBaloth = new creature();
+        Creature rumblingBaloth = new Creature();
         rumblingBaloth.assign(4, 4, "Rumbling Baloth", 4, "Beast", false, false);
         for (int i = 0; i < 2; i++) {
             green.creatureDeck.add(rumblingBaloth);
         }
-        creature llanoWarElves = new creature();
+        Creature llanoWarElves = new Creature();
         llanoWarElves.assign(1, 1, "Llanowar Elves", 1, "Elf Druid", false, false);
         for (int i = 0; i < 4; i++) {
             green.creatureDeck.add(llanoWarElves);
         }
-        creature jadeMage = new creature();
+        Creature jadeMage = new Creature();
         jadeMage.assign(1, 2, "Jade Mage", 2, "Human Shaman", false, false);
         green.creatureDeck.add(jadeMage);
-        creature giantSpider = new creature();
+        Creature giantSpider = new Creature();
         giantSpider.assign(4, 2, "Giant Spider", 4, "Spider", false, false);
         for (int i = 0; i < 3; i++) {
             green.creatureDeck.add(giantSpider);
         }
-        creature garucksCompanion = new creature();
+        Creature garucksCompanion = new Creature();
         garucksCompanion.assign(2, 3, "Garucks Companion", 2, "Beast", true, false);
         for (int i = 0; i < 4; i++) {
             green.creatureDeck.add(garucksCompanion);
         }
-        creature cudgelTroll = new creature();
+        Creature cudgelTroll = new Creature();
         cudgelTroll.assign(3, 4, "Cudgel Troll", 4, "Troll", false, false);
         green.creatureDeck.add(cudgelTroll);
-        creature brindleBoar = new creature();
+        Creature brindleBoar = new Creature();
         brindleBoar.assign(2, 2, "Brindle Boar", 3, "Beast", false, false);
         for (int i = 0; i < 2; i++) {
             green.creatureDeck.add(brindleBoar);
         }
-        creature acidicSlime = new creature();
+        Creature acidicSlime = new Creature();
         acidicSlime.assign(2, 2, "Acidic Slime", 5, "Slime", false, true);
         green.creatureDeck.add(acidicSlime);
         Artifact vialOfPoison = new Artifact();
@@ -98,60 +98,60 @@ public class Main {
         for (int i = 0; i < 2; i++) {
             green.enchantmentDeck.add(trollHide);
         }
-        sorcery rampantGrowth = new sorcery();
+        Sorcery rampantGrowth = new Sorcery();
         for (int i = 0; i < 4; i++) {
             green.sorceryDeck.add(rampantGrowth);
         }
-        sorcery overRun = new sorcery();
+        Sorcery overRun = new Sorcery();
         overRun.assignCounters(3,3);
         green.sorceryDeck.add(overRun);
-        sorcery howlOfTheNightPack = new sorcery();
+        Sorcery howlOfTheNightPack = new Sorcery();
         howlOfTheNightPack.assignCounters(2,2);
         green.sorceryDeck.add(howlOfTheNightPack);
-        instant giantGrowth = new instant();
+        Instant giantGrowth = new Instant();
         giantGrowth.assignCounters(3,3);
         for (int i = 0; i < 3; i++) {
             green.instantDeck.add(giantGrowth);
         }
-        instant naturalize = new instant();
+        Instant naturalize = new Instant();
         green.instantDeck.add(naturalize);
-        instant plummet = new instant();
+        Instant plummet = new Instant();
         green.instantDeck.add(plummet);
     }
     public static void blackDeck(Deck black) {
-        land swamp = new land();
+        Land swamp = new Land();
         for (int i = 0; i < 24; i++) {
             black.landDeck.add(swamp);
         }
-        creature warPathGhoul = new creature();
+        Creature warPathGhoul = new Creature();
         warPathGhoul.assign(2,3, "Warpath Ghoul", 3, "Zombie", false, false);
         for (int i = 0; i < 4; i++) {
             black.creatureDeck.add(warPathGhoul);
         }
-        creature vampireNightHawk = new creature();
+        Creature vampireNightHawk = new Creature();
         vampireNightHawk.assign(2,3, "Vampire Night Hawk", 3, "Vampire Shaman", false, true);
         black.creatureDeck.add(vampireNightHawk);
-        creature sengirVampire = new creature();
+        Creature sengirVampire = new Creature();
         sengirVampire.assign(4,4, "Sengir Vampire", 4, "Vampire", false, false);
         black.creatureDeck.add(sengirVampire);
-        creature onyxMage = new creature();
+        Creature onyxMage = new Creature();
         onyxMage.assign(1, 2, "Onyx Mage", 2, "Human Wizard", false, true);
-        creature graveDigger = new creature();
+        Creature graveDigger = new Creature();
         graveDigger.assign(2,2, "Grave Digger", 4, "Zombie", false, false);
         for (int i = 0; i < 2; i++) {
             black.creatureDeck.add(graveDigger);
         }
-        creature driftingShade = new creature();
+        Creature driftingShade = new Creature();
         driftingShade.assign(1,1, "Drifting Shade", 4, "Shade", false, false);
         for (int i = 0; i < 2; i++) {
             black.creatureDeck.add(driftingShade);
         }
-        creature childOfNight = new creature();
+        Creature childOfNight = new Creature();
         childOfNight.assign(1,2, "Child Of Night", 2, "Vampire", false, false);
         for (int i = 0; i < 2; i++) {
             black.creatureDeck.add(childOfNight);
         }
-        creature bloodThorneVampire = new creature();
+        Creature bloodThorneVampire = new Creature();
         bloodThorneVampire.assign(1,1, "Bloodthorne Vampire", 2, "Vampire", false, false);
         for (int i = 0; i < 4; i++) {
             black.creatureDeck.add(bloodThorneVampire);
@@ -166,22 +166,22 @@ public class Main {
         Enchantment darkFavor = new Enchantment();
         darkFavor.assignCounters(1, 3);
         black.enchantmentDeck.add(darkFavor);
-        sorcery signInBlood = new sorcery();
+        Sorcery signInBlood = new Sorcery();
         for (int i = 0; i < 3; i++) {
             black.sorceryDeck.add(signInBlood);
         }
-        sorcery duress = new sorcery();
+        Sorcery duress = new Sorcery();
         for (int i = 0; i < 4; i++) {
             black.sorceryDeck.add(duress);
         }
-        sorcery diobolicTutor = new sorcery();
+        Sorcery diobolicTutor = new Sorcery();
         black.sorceryDeck.add(diobolicTutor);
-        sorcery corrupt = new sorcery();
+        Sorcery corrupt = new Sorcery();
         black.sorceryDeck.add(corrupt);
-        instant wringFlesh = new instant();
+        Instant wringFlesh = new Instant();
         wringFlesh.assignCounters(-1, -3);
         black.instantDeck.add(wringFlesh);
-        instant doomBlade = new instant();
+        Instant doomBlade = new Instant();
         for (int i = 0; i < 4; i++) {
             black.instantDeck.add(doomBlade);
         }
