@@ -3,46 +3,38 @@ package edu.QASMT.Nikita.MTG;
 import java.util.ArrayList;
 
 public class Battlefield {
-    ArrayList<Creature> player1Battlefield = new ArrayList<Creature>();
-    ArrayList<Creature> player2Battlefield = new ArrayList<Creature>();
-    ArrayList<Land> player1BattlefieldLands = new ArrayList<Land>();
-    ArrayList<Land> player2BattlefieldLands = new ArrayList<Land>();
-    public void addCreatureToBattleField(Creature Creature, Deck deck, Player player, boolean playerDecider) {
-        deck.destroyCreature(Creature);
-        player.takeMana(Creature.getManaCost());
-        if (playerDecider) {
-            player1Battlefield.add(Creature);
-        } else {
-            player2Battlefield.add(Creature);
+    ArrayList<Creature> playerBattlefield = new ArrayList<Creature>();
+    private int playerLands = 0;
+    public void addCreatureToBattleField(int num) {
+        Creature creature = playerBattlefield.get(num);
+        playerBattlefield.add(creature);
+    }
+    public void destroyCreatureInBattleField(int num) {
+        Creature creature = playerBattlefield.get(num);
+        playerBattlefield.remove(creature);
+    }
+    public int getLands() {
+        int lands = playerLands;
+        return lands;
+    }
+    public void addLands() {
+        playerLands++;
+    }
+    public void getCreatures() {
+        for (int i = 0; i < playerBattlefield.size(); i++) {
+            System.out.println("(" + i + ") " + playerBattlefield.get(i).getName() + "Power/Toughness (" + playerBattlefield.get(i).getPower() + "/" + playerBattlefield.get(i).getToughness() + ")" + " and mana cost of " + playerBattlefield.get(i).getManaCost());
         }
     }
-    public void addLandToBattleField(Land lands, Deck deck, boolean playerDecider) {
-        deck.destroyLand(lands);
-        if (playerDecider) {
-            player1BattlefieldLands.add(lands);
-        } else {
-            player2BattlefieldLands.add(lands);
-        }
+    public int getSize() {
+        return playerBattlefield.size();
     }
-    public void destroyCreatureToBattleField(Creature Creature, boolean playerDecider) {
-        if (playerDecider) {
-            player1Battlefield.remove(Creature);
-        } else {
-            player2Battlefield.remove(Creature);
-        }
+    public int getCreaturePower(int num) {
+        return playerBattlefield.get(num).getPower();
     }
-    public void addTokenToBattleField(Creature Creature, boolean playerDecider) {
-        if (playerDecider) {
-            player1Battlefield.add(Creature);
-        } else {
-            player2Battlefield.add(Creature);
-        }
+    public int getCreatureToughness(int num) {
+        return playerBattlefield.get(num).getToughness();
     }
-    public int getLands(boolean player) {
-        if (player) {
-            return player1BattlefieldLands.size();
-        } else {
-            return player2BattlefieldLands.size();
-        }
+    public Creature getCreature(int num) {
+        return playerBattlefield.get(num);
     }
 }

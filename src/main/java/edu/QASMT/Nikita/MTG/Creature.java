@@ -1,51 +1,29 @@
 package edu.QASMT.Nikita.MTG;
 
 public class Creature {
+    private int power;
     private int toughness;
-    private int attack;
-    private String name;
     private int manaCost = 0;
-    private String type;
-    private boolean trample;
-    private boolean deathTouch;
-    private boolean tapped = false;
-    public void assign(int toughness, int attack, String name, int manaCost, String type, boolean trample, boolean deathTouch) {
+    private String name;
+    public Creature(int power, int toughness, int manaCost) {
+        this.power = power;
         this.toughness = toughness;
-        this.attack = attack;
-        this.name = name;
         this.manaCost = manaCost;
-        this.type = type;
-        this.trample = trample;
-        this.deathTouch = deathTouch;
-    }
-    public void assignToken(int toughness, int attack, String name, String type) {
-        this.toughness = toughness;
-        this.attack = attack;
-        this.name = name;
-        this.type = type;
-    }
-    public void putCounter(int attackIncrease, int toughnessIncrease) {
-        toughness += toughnessIncrease;
-        attack += attackIncrease;
-    }
-    public void takeCounter(int attackDecrease, int toughnessDecrease) {
-        toughness -= toughnessDecrease;
-        attack -= attackDecrease;
     }
     public int getManaCost() {
-        return manaCost;
+        int manaClone = manaCost;
+        return manaClone;
     }
-    public void giveTrample() {
-        trample = true;
+    public int getPower() {
+        int powerClone = power;
+        return powerClone;
     }
-    public void giveDeathTouch() {
-        deathTouch = true;
+    public int getToughness() {
+        int toughnessClone = toughness;
+        return toughnessClone;
     }
-    public void tap() {
-        tapped = true;
+    public String getName() {
+        String nameClone = name;
+        return nameClone;
     }
-    public void untap() {
-        tapped = false;
-    }
-
 }

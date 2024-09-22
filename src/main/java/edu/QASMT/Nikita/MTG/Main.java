@@ -1,14 +1,15 @@
 package edu.QASMT.Nikita.MTG;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Deck black = new Deck();
-        Deck green = new Deck();
-        greenDeck(green);
-        blackDeck(black);
+        Player player1 = new Player();
+        Player player2 = new Player();
         Scanner scanner = new Scanner(System.in);
+        Hand darkAngels = new Hand();
+        Hand ultraMarines = new Hand();
         System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
         int choice = scanner.nextInt();
         while ((choice != 1) && (choice != 2)) {
@@ -17,174 +18,231 @@ public class Main {
             choice = scanner.nextInt();
         }
         if (choice == 1) {
-            game();
+            game(player1, player2, darkAngels, ultraMarines);
         } else {
             System.out.println("This is still under construction.");
         }
     }
-    public static boolean attack(int attacking, int defending) {
+    public static int attack(Creature attacker, Creature defender) {
+        int attacking = attacker.getPower();
+        int defending = defender.getToughness();
         if (attacking >= defending) {
-            return true;
+            return attacking - defending;
         } else if (attacking < defending) {
-            return false;
+            return attacking - defending;
         }
-        return false;
+        return attacking - defending;
     }
-    public static void game() {
+    public static void game(Player player1, Player player2, Hand darkAngels, Hand ultraMarines) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to play the Green or the Black deck?");
+        Battlefield player1Battlefield = new Battlefield();
+        Battlefield player2Battlefield = new Battlefield();
+        player1.setBattlefield(player1Battlefield);
+        player2.setBattlefield(player2Battlefield);
+        System.out.println("Would you like to play the Dark Angels or the Ultramarines?");
         String deckChoice = scanner.nextLine();
-        while (deckChoice != "Green" || deckChoice != "Black") {
-            System.out.println("Please enter Green or Black");
+        while (!Objects.equals(deckChoice, "Dark Angels") && !Objects.equals(deckChoice, "Ultramarines")) {
+            System.out.println("Please enter Dark Angels or the Ultramarines");
             deckChoice = scanner.nextLine();
         }
+        if (deckChoice.equals("Dark Angels")) {
+            player1.setHand(darkAngels);
+            player2.setHand(ultraMarines);
+        } else {
+            player1.setHand(ultraMarines);
+            player2.setHand(darkAngels);
+        }
+        for (int i = 1; i < 4; i++) {
+            System.out.println("Round " + i + ":");
+            playerTurn(player1, player2, player1Battlefield, player2Battlefield, 1);
+            System.out.println("Player 1 your Turn has ended");
+            playerTurn(player2, player1, player2Battlefield, player1Battlefield, 2);
 
+        }
+        if (player1.getLife() > player2.getLife()) {
+            System.out.println("Player 1 wins!");
+        } else if (player2.getLife() > player1.getLife()) {
+            System.out.println("Player 2 wins!");
+        } else {
+            System.out.println("Draw...");
+        }
 
     }
-    public static void greenDeck(Deck green) {
-        Land forest = new Land();
-        for (int i = 0; i < 24; i++) {
-            green.landDeck.add(forest);
+    public static boolean isNumber(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
-        Creature yevaForceMage = new Creature();
-        yevaForceMage.assign(2, 2, "Yeva's forcemage", 3, "Elf Shaman", false, false);
-        for (int i = 0; i < 2; i++) {
-            green.creatureDeck.add(yevaForceMage);
-        }
-        Creature woodBornBehemoth = new Creature();
-        woodBornBehemoth.assign(4, 4, "Woodborn Behemoth", 5, "Elemental", true, false);
-        green.creatureDeck.add(woodBornBehemoth);
-        Creature stingerFlingSpider = new Creature();
-        stingerFlingSpider.assign(5, 2, "Stingerfling Spider", 5, "Spider", false, false);
-        green.creatureDeck.add(stingerFlingSpider);
-        Creature rumblingBaloth = new Creature();
-        rumblingBaloth.assign(4, 4, "Rumbling Baloth", 4, "Beast", false, false);
-        for (int i = 0; i < 2; i++) {
-            green.creatureDeck.add(rumblingBaloth);
-        }
-        Creature llanoWarElves = new Creature();
-        llanoWarElves.assign(1, 1, "Llanowar Elves", 1, "Elf Druid", false, false);
-        for (int i = 0; i < 4; i++) {
-            green.creatureDeck.add(llanoWarElves);
-        }
-        Creature jadeMage = new Creature();
-        jadeMage.assign(1, 2, "Jade Mage", 2, "Human Shaman", false, false);
-        green.creatureDeck.add(jadeMage);
-        Creature giantSpider = new Creature();
-        giantSpider.assign(4, 2, "Giant Spider", 4, "Spider", false, false);
-        for (int i = 0; i < 3; i++) {
-            green.creatureDeck.add(giantSpider);
-        }
-        Creature garucksCompanion = new Creature();
-        garucksCompanion.assign(2, 3, "Garucks Companion", 2, "Beast", true, false);
-        for (int i = 0; i < 4; i++) {
-            green.creatureDeck.add(garucksCompanion);
-        }
-        Creature cudgelTroll = new Creature();
-        cudgelTroll.assign(3, 4, "Cudgel Troll", 4, "Troll", false, false);
-        green.creatureDeck.add(cudgelTroll);
-        Creature brindleBoar = new Creature();
-        brindleBoar.assign(2, 2, "Brindle Boar", 3, "Beast", false, false);
-        for (int i = 0; i < 2; i++) {
-            green.creatureDeck.add(brindleBoar);
-        }
-        Creature acidicSlime = new Creature();
-        acidicSlime.assign(2, 2, "Acidic Slime", 5, "Slime", false, true);
-        green.creatureDeck.add(acidicSlime);
-        Artifact vialOfPoison = new Artifact();
-        green.artifactDeck.add(vialOfPoison);
-        Enchantment trollHide = new Enchantment();
-        trollHide.assignCounters(2, 2);
-        for (int i = 0; i < 2; i++) {
-            green.enchantmentDeck.add(trollHide);
-        }
-        Sorcery rampantGrowth = new Sorcery();
-        for (int i = 0; i < 4; i++) {
-            green.sorceryDeck.add(rampantGrowth);
-        }
-        Sorcery overRun = new Sorcery();
-        overRun.assignCounters(3,3);
-        green.sorceryDeck.add(overRun);
-        Sorcery howlOfTheNightPack = new Sorcery();
-        howlOfTheNightPack.assignCounters(2,2);
-        green.sorceryDeck.add(howlOfTheNightPack);
-        Instant giantGrowth = new Instant();
-        giantGrowth.assignCounters(3,3);
-        for (int i = 0; i < 3; i++) {
-            green.instantDeck.add(giantGrowth);
-        }
-        Instant naturalize = new Instant();
-        green.instantDeck.add(naturalize);
-        Instant plummet = new Instant();
-        green.instantDeck.add(plummet);
     }
-    public static void blackDeck(Deck black) {
-        Land swamp = new Land();
-        for (int i = 0; i < 24; i++) {
-            black.landDeck.add(swamp);
+    public static int howManyTapLands(Player player1, Player player2, int playerNum) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Player " + playerNum + " how many lands would you like to tap?" + player1.getHand().getNumLandsInHand() + " lands");
+        System.out.println("Please enter a number between 1 and " + player2.getHand().getNumLandsInHand());
+        String tapLands = scanner.nextLine();
+        boolean numCheck = isNumber(tapLands);
+        if (!numCheck) {
+            while (!numCheck) {
+                System.out.println("Not an integer");
+                System.out.println("Player " + playerNum + " how many lands would you like to tap?" + player1.getHand().getNumLandsInHand() + " lands");
+                System.out.println("Please enter an integer! between 1 and " + player2.getHand().getNumLandsInHand());
+                tapLands = scanner.nextLine();
+                numCheck = isNumber(tapLands);
+            }
         }
-        Creature warPathGhoul = new Creature();
-        warPathGhoul.assign(2,3, "Warpath Ghoul", 3, "Zombie", false, false);
-        for (int i = 0; i < 4; i++) {
-            black.creatureDeck.add(warPathGhoul);
+        int numLandTap = Integer.parseInt(tapLands);
+        while (numLandTap < 1 || numLandTap > player1.getHand().getNumLandsInHand()) {
+            System.out.println("Please enter an integer! between 1 and " + player2.getHand().getNumLandsInHand());
+            tapLands = scanner.nextLine();
+            numCheck = isNumber(tapLands);
+            if (!numCheck) {
+                while (!numCheck) {
+                    System.out.println("Not an integer");
+                    System.out.println("Player " + playerNum + " how many lands would you like to tap?" + player1.getHand().getNumLandsInHand() + " lands");
+                    System.out.println("Please enter an integer! between 1 and " + player2.getHand().getNumLandsInHand());
+                    tapLands = scanner.nextLine();
+                    numCheck = isNumber(tapLands);
+                }
+            }
+            numLandTap = Integer.parseInt(tapLands);
         }
-        Creature vampireNightHawk = new Creature();
-        vampireNightHawk.assign(2,3, "Vampire Night Hawk", 3, "Vampire Shaman", false, true);
-        black.creatureDeck.add(vampireNightHawk);
-        Creature sengirVampire = new Creature();
-        sengirVampire.assign(4,4, "Sengir Vampire", 4, "Vampire", false, false);
-        black.creatureDeck.add(sengirVampire);
-        Creature onyxMage = new Creature();
-        onyxMage.assign(1, 2, "Onyx Mage", 2, "Human Wizard", false, true);
-        Creature graveDigger = new Creature();
-        graveDigger.assign(2,2, "Grave Digger", 4, "Zombie", false, false);
-        for (int i = 0; i < 2; i++) {
-            black.creatureDeck.add(graveDigger);
+        scanner.close();
+        return numLandTap;
+    }
+    public static int numCreature(Player player) {
+        Scanner scanner = new Scanner(System.in);
+        player.getHand().getCreatures();
+        System.out.println("Which creature?");
+        System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+        String whichCreature = scanner.nextLine();
+        boolean creatureCheck = isNumber(whichCreature);
+        if (!creatureCheck) {
+            while (!creatureCheck) {
+                System.out.println("Not an integer");
+                player.getHand().getCreatures();
+                System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+                whichCreature = scanner.nextLine();
+                creatureCheck = isNumber(whichCreature);
+            }
         }
-        Creature driftingShade = new Creature();
-        driftingShade.assign(1,1, "Drifting Shade", 4, "Shade", false, false);
-        for (int i = 0; i < 2; i++) {
-            black.creatureDeck.add(driftingShade);
+        int numCreatureChoice = Integer.parseInt(whichCreature);
+        while (numCreatureChoice < 0 || numCreatureChoice > player.getHand().getNumLandsInHand()) {
+            player.getHand().getCreatures();
+            System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+            whichCreature = scanner.nextLine();
+            creatureCheck = isNumber(whichCreature);
+            if (!creatureCheck) {
+                while (!creatureCheck) {
+                    System.out.println("Not an integer");
+                    player.getHand().getCreatures();
+                    System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+                    whichCreature = scanner.nextLine();
+                    creatureCheck = isNumber(whichCreature);
+                }
+            }
+            numCreatureChoice = Integer.parseInt(whichCreature);
         }
-        Creature childOfNight = new Creature();
-        childOfNight.assign(1,2, "Child Of Night", 2, "Vampire", false, false);
-        for (int i = 0; i < 2; i++) {
-            black.creatureDeck.add(childOfNight);
+        scanner.close();
+        return  numCreatureChoice;
+    }
+    public static int numBattleFieldCreature(Player player) {
+        Scanner scanner = new Scanner(System.in);
+        player.getBattlefield().getCreatures();
+        System.out.println("Which creature?");
+        System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+        String whichCreature = scanner.nextLine();
+        boolean creatureCheck = isNumber(whichCreature);
+        if (!creatureCheck) {
+            while (!creatureCheck) {
+                System.out.println("Not an integer");
+                player.getBattlefield().getCreatures();
+                System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+                whichCreature = scanner.nextLine();
+                creatureCheck = isNumber(whichCreature);
+            }
         }
-        Creature bloodThorneVampire = new Creature();
-        bloodThorneVampire.assign(1,1, "Bloodthorne Vampire", 2, "Vampire", false, false);
-        for (int i = 0; i < 4; i++) {
-            black.creatureDeck.add(bloodThorneVampire);
+        int numCreatureChoice = Integer.parseInt(whichCreature);
+        while (numCreatureChoice < 0 || numCreatureChoice > player.getHand().getNumLandsInHand()) {
+            player.getBattlefield().getCreatures();
+            System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+            whichCreature = scanner.nextLine();
+            creatureCheck = isNumber(whichCreature);
+            if (!creatureCheck) {
+                while (!creatureCheck) {
+                    System.out.println("Not an integer");
+                    player.getHand().getCreatures();
+                    System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+                    whichCreature = scanner.nextLine();
+                    creatureCheck = isNumber(whichCreature);
+                }
+            }
+            numCreatureChoice = Integer.parseInt(whichCreature);
         }
-        Artifact staffOfTheDeathMagus = new Artifact();
-        black.artifactDeck.add(staffOfTheDeathMagus);
-        Enchantment quagSickness = new Enchantment();
-        quagSickness.assignCounters(-1, -1);
-        for (int i = 0; i < 3; i++) {
-            black.enchantmentDeck.add(quagSickness);
+        scanner.close();
+        return  numCreatureChoice;
+    }
+    public static void playerTurn(Player player1, Player player2, Battlefield player1Battlefield, Battlefield player2Battlefield, int playerNum) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Player " + playerNum + " it is your turn would you like to place a land? You have " + player1.getHand().getNumLandsInHand() + " lands");
+        System.out.println("y or n");
+        char getLands = scanner.next().charAt(0);
+        while (getLands != 'n' && getLands != 'y') {
+            System.out.println("Please enter a valid choice (y or n)");
+            getLands = scanner.next().charAt(0);
         }
-        Enchantment darkFavor = new Enchantment();
-        darkFavor.assignCounters(1, 3);
-        black.enchantmentDeck.add(darkFavor);
-        Sorcery signInBlood = new Sorcery();
-        for (int i = 0; i < 3; i++) {
-            black.sorceryDeck.add(signInBlood);
+        if (getLands == 'y') {
+            player1.getHand().putLandOnBattlefield(player1Battlefield);
         }
-        Sorcery duress = new Sorcery();
-        for (int i = 0; i < 4; i++) {
-            black.sorceryDeck.add(duress);
+        int usableMana = howManyTapLands(player1, player2, playerNum);
+        System.out.println("Player" + playerNum + " has " + usableMana + " usable mana");
+        player1.getHand().getCreatures();
+        System.out.println("Would you like to play a creature?");
+        System.out.println("y or n");
+        char getCreature = scanner.next().charAt(0);
+        while (getCreature != 'n' && getCreature != 'y') {
+            System.out.println("Please enter a valid choice (y or n)");
+            getCreature = scanner.next().charAt(0);
         }
-        Sorcery diobolicTutor = new Sorcery();
-        black.sorceryDeck.add(diobolicTutor);
-        Sorcery corrupt = new Sorcery();
-        black.sorceryDeck.add(corrupt);
-        Instant wringFlesh = new Instant();
-        wringFlesh.assignCounters(-1, -3);
-        black.instantDeck.add(wringFlesh);
-        Instant doomBlade = new Instant();
-        for (int i = 0; i < 4; i++) {
-            black.instantDeck.add(doomBlade);
+        if (getCreature == 'y') {
+            int numCreatureChoices = numCreature(player1);
+            while (usableMana < player1.getHand().getManaCost(numCreatureChoices)) {
+                System.out.println("Player " + playerNum + " has " + usableMana + " usable mana");
+                System.out.println("And creature (" + numCreatureChoices + ") costs " + player1.getHand().getManaCost(numCreatureChoices) + " mana");
+                numCreatureChoices = numCreature(player1);
+            }
+            player1.getHand().putCreatureOnBattlefield(player1Battlefield, numCreatureChoices);
         }
+        System.out.println("Would you like to attack?");
+        System.out.println("y or n");
+        char getAttack = scanner.next().charAt(0);
+        while (getAttack != 'n' && getAttack != 'y') {
+            System.out.println("Please enter a valid choice (y or n)");
+            getAttack = scanner.next().charAt(0);
+        }
+        if (getAttack == 'y') {
+            if (player1Battlefield.getSize() > 0) {
+                System.out.println("Which creature would you like to attack with?");
+                int attackChoice = numBattleFieldCreature(player1);
+                if (player2Battlefield.getSize() < 1) {
+                    System.out.println("Defender you have lost " + player1Battlefield.getCreaturePower(attackChoice) + " Life");
+                    player2.takeLife(player1Battlefield.getCreaturePower(attackChoice));
+                } else {
+                    System.out.println("DEFENDER! ,Which Creature would you like to defend with?");
+                    int defenderChoice = numBattleFieldCreature(player2);
+                    int attackResult = attack(player1Battlefield.getCreature(attackChoice), player2Battlefield.getCreature(defenderChoice));
+                    if (attackResult >= 0) {
+                        System.out.println("Congratulations you have defeated a creature");
+                        player2Battlefield.destroyCreatureInBattleField(defenderChoice);
+                        System.out.println("Defender you have lost " + attackResult + " Life");
+                        player2.takeLife(attackResult);
+                    } else {
+                        System.out.println("Attacker you did not succeed...");
+                    }
+                }
+            }
+        }
+        scanner.close();
 
     }
 }

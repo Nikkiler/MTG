@@ -15,6 +15,6 @@ public class Instant {
         creature.takeCounter(attackCounter, toughnessCounter);
     }
     public void destroyCreature(Creature creature, Battlefield battlefield, boolean player) {
-        battlefield.destroyCreatureToBattleField(creature, player);
+        battlefield.destroyCreatureInBattleField(creature);
     }
 }
