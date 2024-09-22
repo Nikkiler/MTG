@@ -5,10 +5,11 @@ public class Creature {
     private int toughness;
     private int manaCost = 0;
     private String name;
-    public Creature(int power, int toughness, int manaCost) {
+    public Creature(int power, int toughness, int manaCost, String name) {
         this.power = power;
         this.toughness = toughness;
         this.manaCost = manaCost;
+        this.name = name;
     }
     public int getManaCost() {
         int manaClone = manaCost;

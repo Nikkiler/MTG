@@ -31,4 +31,7 @@ public class Hand {
         int cost = creatures.get(num).getManaCost();
         return cost;
     }
+    public void addCreature(Creature creature) {
+        creatures.add(creature);
+    }
 }

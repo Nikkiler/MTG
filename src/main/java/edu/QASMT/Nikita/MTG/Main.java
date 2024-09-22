@@ -10,6 +10,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Hand darkAngels = new Hand();
         Hand ultraMarines = new Hand();
+        Creature darkAngelMarine = new Creature(1, 2, 1, "Dark Angels Marine");
+        darkAngels.addCreature(darkAngelMarine);
+        Creature ultraMarine = new Creature(1, 2, 1, "Ultramarine");
+        ultraMarines.addCreature(ultraMarine);
+        Creature azraelSupremeGrandmaster = new Creature(2, 2, 2, "Azrael Supreme Grandmaster");
+        darkAngels.addCreature(azraelSupremeGrandmaster);
+        Creature marneusCalgarChapterMaster = new Creature(2, 2, 2, "Marneus Calgar Chapter Master");
+        ultraMarines.addCreature(marneusCalgarChapterMaster);
+        Creature lionElJohnson = new Creature(3, 3, 3, "Lion El Johnson");
+        darkAngels.addCreature(lionElJohnson);
+        Creature robouteGuilliman = new Creature(3, 3, 3, "Roboute Guilliman");
+        ultraMarines.addCreature(robouteGuilliman);
         System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
         int choice = scanner.nextInt();
         while ((choice != 1) && (choice != 2)) {
