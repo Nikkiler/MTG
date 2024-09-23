@@ -12,7 +12,7 @@ public class Hand {
     public void putCreatureOnBattlefield(Battlefield battlefield, int num) {
         Creature creature = creatures.get(num);
         creatures.remove(creature);
-        battlefield.addCreatureToBattleField(num);
+        battlefield.addCreatureToBattleField(creature);
     }
     public int getNumLandsInHand() {
         int landClone = numLandsInHand;

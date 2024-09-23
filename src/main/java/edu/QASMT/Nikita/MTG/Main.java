@@ -30,7 +30,7 @@ public class Main {
             choice = scanner.nextLine();
         }
         if (choice.equals("1")) {
-            game(player1, player2, darkAngels, ultraMarines);
+            game(player1, player2, darkAngels, ultraMarines, scanner);
         } else {
             System.out.println("This is still under construction.");
         }
@@ -45,8 +45,7 @@ public class Main {
         }
         return attacking - defending;
     }
-    public static void game(Player player1, Player player2, Hand darkAngels, Hand ultraMarines) {
-        Scanner scanner = new Scanner(System.in);
+    public static void game(Player player1, Player player2, Hand darkAngels, Hand ultraMarines, Scanner scanner) {
         Battlefield player1Battlefield = new Battlefield();
         Battlefield player2Battlefield = new Battlefield();
         player1.setBattlefield(player1Battlefield);
@@ -66,9 +65,9 @@ public class Main {
         }
         for (int i = 1; i < 4; i++) {
             System.out.println("Round " + i + ":");
-            playerTurn(player1, player2, player1Battlefield, player2Battlefield, 1);
+            playerTurn(player1, player2, player1Battlefield, player2Battlefield, 1, scanner);
             System.out.println("Player 1 your Turn has ended");
-            playerTurn(player2, player1, player2Battlefield, player1Battlefield, 2);
+            playerTurn(player2, player1, player2Battlefield, player1Battlefield, 2, scanner);
 
         }
         if (player1.getLife() > player2.getLife()) {
@@ -88,8 +87,7 @@ public class Main {
             return false;
         }
     }
-    public static int howManyTapLands(Player player1, Player player2, int playerNum) {
-        Scanner scanner = new Scanner(System.in);
+    public static int howManyTapLands(Player player1, Player player2, int playerNum, Scanner scanner) {
         System.out.println("Player " + playerNum + " how many lands would you like to tap? " + player1.getBattlefield().getLands() + " lands");
         System.out.println("Please enter a number between 1 and " + player1.getBattlefield().getLands());
         String tapLands = scanner.nextLine();
@@ -104,7 +102,7 @@ public class Main {
             }
         }
         int numLandTap = Integer.parseInt(tapLands);
-        while (numLandTap < 1 || numLandTap > player1.getHand().getNumLandsInHand()) {
+        while (numLandTap < 1 || numLandTap > player1.getBattlefield().getLands()) {
             System.out.println("Please enter an integer! between 1 and " + player1.getBattlefield().getLands());
             tapLands = scanner.nextLine();
             numCheck = isNumber(tapLands);
@@ -119,83 +117,77 @@ public class Main {
             }
             numLandTap = Integer.parseInt(tapLands);
         }
-        scanner.close();
         return numLandTap;
     }
-    public static int numCreature(Player player) {
-        Scanner scanner = new Scanner(System.in);
+    public static int numCreature(Player player, Scanner scanner) {
         player.getHand().getCreatures();
         System.out.println("Which creature?");
-        System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+        System.out.println("Please enter a number between 0 and " + (player.getHand().getNumCreatures() - 1));
         String whichCreature = scanner.nextLine();
         boolean creatureCheck = isNumber(whichCreature);
         if (!creatureCheck) {
             while (!creatureCheck) {
                 System.out.println("Not an integer");
                 player.getHand().getCreatures();
-                System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+                System.out.println("Please enter a number between 0 and " + (player.getHand().getNumCreatures() - 1));
                 whichCreature = scanner.nextLine();
                 creatureCheck = isNumber(whichCreature);
             }
         }
         int numCreatureChoice = Integer.parseInt(whichCreature);
-        while (numCreatureChoice < 0 || numCreatureChoice > player.getHand().getNumLandsInHand()) {
+        while (numCreatureChoice < 0 || numCreatureChoice > (player.getHand().getNumCreatures() - 1)) {
             player.getHand().getCreatures();
-            System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+            System.out.println("Please enter a number between 0 and " + (player.getHand().getNumCreatures() - 1));
             whichCreature = scanner.nextLine();
             creatureCheck = isNumber(whichCreature);
             if (!creatureCheck) {
                 while (!creatureCheck) {
                     System.out.println("Not an integer");
                     player.getHand().getCreatures();
-                    System.out.println("Please enter a number between 0 and " + player.getHand().getNumCreatures());
+                    System.out.println("Please enter a number between 0 and " + (player.getHand().getNumCreatures() - 1));
                     whichCreature = scanner.nextLine();
                     creatureCheck = isNumber(whichCreature);
                 }
             }
             numCreatureChoice = Integer.parseInt(whichCreature);
         }
-        scanner.close();
         return  numCreatureChoice;
     }
-    public static int numBattleFieldCreature(Player player) {
-        Scanner scanner = new Scanner(System.in);
+    public static int numBattleFieldCreature(Player player, Scanner scanner) {
         player.getBattlefield().getCreatures();
         System.out.println("Which creature?");
-        System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+        System.out.println("Please enter a number between 0 and " + (player.getBattlefield().getSize() - 1));
         String whichCreature = scanner.nextLine();
         boolean creatureCheck = isNumber(whichCreature);
         if (!creatureCheck) {
             while (!creatureCheck) {
                 System.out.println("Not an integer");
                 player.getBattlefield().getCreatures();
-                System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+                System.out.println("Please enter a number between 0 and " + (player.getBattlefield().getSize() - 1));
                 whichCreature = scanner.nextLine();
                 creatureCheck = isNumber(whichCreature);
             }
         }
         int numCreatureChoice = Integer.parseInt(whichCreature);
-        while (numCreatureChoice < 0 || numCreatureChoice > player.getHand().getNumLandsInHand()) {
+        while (numCreatureChoice < 0 || numCreatureChoice > (player.getBattlefield().getSize() - 1)) {
             player.getBattlefield().getCreatures();
-            System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+            System.out.println("Please enter a number between 0 and " + (player.getBattlefield().getSize() - 1));
             whichCreature = scanner.nextLine();
             creatureCheck = isNumber(whichCreature);
             if (!creatureCheck) {
                 while (!creatureCheck) {
                     System.out.println("Not an integer");
                     player.getHand().getCreatures();
-                    System.out.println("Please enter a number between 0 and " + player.getBattlefield().getSize());
+                    System.out.println("Please enter a number between 0 and " + (player.getBattlefield().getSize() - 1));
                     whichCreature = scanner.nextLine();
                     creatureCheck = isNumber(whichCreature);
                 }
             }
             numCreatureChoice = Integer.parseInt(whichCreature);
         }
-        scanner.close();
         return  numCreatureChoice;
     }
-    public static void playerTurn(Player player1, Player player2, Battlefield player1Battlefield, Battlefield player2Battlefield, int playerNum) {
-        Scanner scanner = new Scanner(System.in);
+    public static void playerTurn(Player player1, Player player2, Battlefield player1Battlefield, Battlefield player2Battlefield, int playerNum, Scanner scanner) {
         System.out.println("Player " + playerNum + " it is your turn would you like to place a land? You have " + player1.getHand().getNumLandsInHand() + " lands");
         System.out.println("y or n");
         char getLands = scanner.nextLine().charAt(0);
@@ -206,7 +198,7 @@ public class Main {
         if (getLands == 'y') {
             player1.getHand().putLandOnBattlefield(player1Battlefield);
         }
-        int usableMana = howManyTapLands(player1, player2, playerNum);
+        int usableMana = howManyTapLands(player1, player2, playerNum, scanner);
         System.out.println("Player" + playerNum + " has " + usableMana + " usable mana");
         player1.getHand().getCreatures();
         System.out.println("Would you like to play a creature?");
@@ -217,11 +209,11 @@ public class Main {
             getCreature = scanner.nextLine().charAt(0);
         }
         if (getCreature == 'y') {
-            int numCreatureChoices = numCreature(player1);
+            int numCreatureChoices = numCreature(player1, scanner);
             while (usableMana < player1.getHand().getManaCost(numCreatureChoices)) {
                 System.out.println("Player " + playerNum + " has " + usableMana + " usable mana");
                 System.out.println("And creature (" + numCreatureChoices + ") costs " + player1.getHand().getManaCost(numCreatureChoices) + " mana");
-                numCreatureChoices = numCreature(player1);
+                numCreatureChoices = numCreature(player1, scanner);
             }
             player1.getHand().putCreatureOnBattlefield(player1Battlefield, numCreatureChoices);
         }
@@ -235,13 +227,13 @@ public class Main {
         if (getAttack == 'y') {
             if (player1Battlefield.getSize() > 0) {
                 System.out.println("Which creature would you like to attack with?");
-                int attackChoice = numBattleFieldCreature(player1);
+                int attackChoice = numBattleFieldCreature(player1, scanner);
                 if (player2Battlefield.getSize() < 1) {
                     System.out.println("Defender you have lost " + player1Battlefield.getCreaturePower(attackChoice) + " Life");
                     player2.takeLife(player1Battlefield.getCreaturePower(attackChoice));
                 } else {
                     System.out.println("DEFENDER! ,Which Creature would you like to defend with?");
-                    int defenderChoice = numBattleFieldCreature(player2);
+                    int defenderChoice = numBattleFieldCreature(player2, scanner);
                     int attackResult = attack(player1Battlefield.getCreature(attackChoice), player2Battlefield.getCreature(defenderChoice));
                     if (attackResult >= 0) {
                         System.out.println("Congratulations you have defeated a creature");
@@ -254,7 +246,6 @@ public class Main {
                 }
             }
         }
-        scanner.close();
 
     }
 }

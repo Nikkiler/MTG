@@ -9,6 +9,9 @@ public class Battlefield {
         Creature creature = playerBattlefield.get(num);
         playerBattlefield.add(creature);
     }
+    public void addCreatureToBattleField(Creature creature) {
+        playerBattlefield.add(creature);
+    }
     public void destroyCreatureInBattleField(int num) {
         Creature creature = playerBattlefield.get(num);
         playerBattlefield.remove(creature);
@@ -22,7 +25,7 @@ public class Battlefield {
     }
     public void getCreatures() {
         for (int i = 0; i < playerBattlefield.size(); i++) {
-            System.out.println("(" + i + ") " + playerBattlefield.get(i).getName() + "Power/Toughness (" + playerBattlefield.get(i).getPower() + "/" + playerBattlefield.get(i).getToughness() + ")" + " and mana cost of " + playerBattlefield.get(i).getManaCost());
+            System.out.println("(" + i + ") " + playerBattlefield.get(i).getName() + " Power/Toughness (" + playerBattlefield.get(i).getPower() + "/" + playerBattlefield.get(i).getToughness() + ")" + " and mana cost of " + playerBattlefield.get(i).getManaCost());
         }
     }
     public int getSize() {
