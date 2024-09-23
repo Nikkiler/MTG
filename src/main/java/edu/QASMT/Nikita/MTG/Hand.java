@@ -1,10 +1,9 @@
 package edu.QASMT.Nikita.MTG;
 
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 
 public class Hand {
-    private ArrayList<Creature> creatures;
+    private ArrayList<Creature> creatures = new ArrayList<Creature>();
     private int numLandsInHand = 3;
     public void putLandOnBattlefield(Battlefield battlefield) {
         numLandsInHand--;

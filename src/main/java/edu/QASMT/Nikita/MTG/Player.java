@@ -32,5 +32,7 @@ public class Player {
     public Battlefield getBattlefield() {return battlefield;}
     public Hand getHand() {return hand;}
     public void setHand(Hand hand) {this.hand = hand;}
-    public void setBattlefield(Battlefield battlefield) {}
+    public void setBattlefield(Battlefield battlefield) {
+        this.battlefield = battlefield;
+    }
 }
