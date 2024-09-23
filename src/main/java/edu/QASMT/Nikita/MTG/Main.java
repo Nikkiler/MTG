@@ -23,13 +23,13 @@ public class Main {
         Creature robouteGuilliman = new Creature(3, 3, 3, "Roboute Guilliman");
         ultraMarines.addCreature(robouteGuilliman);
         System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
-        int choice = scanner.nextInt();
-        while ((choice != 1) && (choice != 2)) {
+        String choice = scanner.nextLine();
+        while ((!Objects.equals(choice, "1")) && (!Objects.equals(choice, "2"))) {
             System.out.println("Error Invalid Input");
             System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
-            choice = scanner.nextInt();
+            choice = scanner.nextLine();
         }
-        if (choice == 1) {
+        if (choice.equals("1")) {
             game(player1, player2, darkAngels, ultraMarines);
         } else {
             System.out.println("This is still under construction.");
