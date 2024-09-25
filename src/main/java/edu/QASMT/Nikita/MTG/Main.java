@@ -89,28 +89,28 @@ public class Main {
     }
     public static int howManyTapLands(Player player1, Player player2, int playerNum, Scanner scanner) {
         System.out.println("Player " + playerNum + " how many lands would you like to tap? " + player1.getBattlefield().getLands() + " lands");
-        System.out.println("Please enter a number between 1 and " + player1.getBattlefield().getLands());
+        System.out.println("Please enter a number between 0 and " + player1.getBattlefield().getLands());
         String tapLands = scanner.nextLine();
         boolean numCheck = isNumber(tapLands);
         if (!numCheck) {
             while (!numCheck) {
                 System.out.println("Not an integer");
                 System.out.println("Player " + playerNum + " how many lands would you like to tap? " + player1.getBattlefield().getLands() + " lands");
-                System.out.println("Please enter an integer! between 1 and " + player1.getBattlefield().getLands());
+                System.out.println("Please enter an integer! between 0 and " + player1.getBattlefield().getLands());
                 tapLands = scanner.nextLine();
                 numCheck = isNumber(tapLands);
             }
         }
         int numLandTap = Integer.parseInt(tapLands);
-        while (numLandTap < 1 || numLandTap > player1.getBattlefield().getLands()) {
-            System.out.println("Please enter an integer! between 1 and " + player1.getBattlefield().getLands());
+        while (numLandTap < 0 || numLandTap > player1.getBattlefield().getLands()) {
+            System.out.println("Please enter an integer! between 0 and " + player1.getBattlefield().getLands());
             tapLands = scanner.nextLine();
             numCheck = isNumber(tapLands);
             if (!numCheck) {
                 while (!numCheck) {
                     System.out.println("Not an integer");
                     System.out.println("Player " + playerNum + " how many lands would you like to tap? " + player1.getBattlefield().getLands() + " lands");
-                    System.out.println("Please enter an integer! between 1 and " + player1.getBattlefield().getLands());
+                    System.out.println("Please enter an integer! between 0 and " + player1.getBattlefield().getLands());
                     tapLands = scanner.nextLine();
                     numCheck = isNumber(tapLands);
                 }
