@@ -1,4 +1,4 @@
-package edu.QASMT.Nikita.MTG;
+package edu.qasmt.nikita.mtg;
 
 public class Creature {
     private int power;
