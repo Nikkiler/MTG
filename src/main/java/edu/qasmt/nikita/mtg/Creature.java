@@ -3,7 +3,7 @@ package edu.qasmt.nikita.mtg;
 public class Creature {
     private int power;
     private int toughness;
-    private int manaCost = 0;
+    private int manaCost;
     private String name;
     public Creature(int power, int toughness, int manaCost, String name) {
         this.power = power;

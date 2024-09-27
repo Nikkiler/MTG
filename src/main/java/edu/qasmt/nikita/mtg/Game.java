@@ -1,7 +1,14 @@
 package edu.qasmt.nikita.mtg;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Objects;
 import java.util.Scanner;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
 
 public class Game {
     public void gameSetAndRun() {
@@ -10,18 +17,27 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         Hand darkAngels = new Hand();
         Hand ultraMarines = new Hand();
-        Creature darkAngelMarine = new Creature(1, 2, 1, "Dark Angels Marine");
-        darkAngels.addCreature(darkAngelMarine);
-        Creature ultraMarine = new Creature(1, 2, 1, "Ultramarine");
-        ultraMarines.addCreature(ultraMarine);
-        Creature azraelSupremeGrandmaster = new Creature(2, 2, 2, "Azrael Supreme Grandmaster");
-        darkAngels.addCreature(azraelSupremeGrandmaster);
-        Creature marneusCalgarChapterMaster = new Creature(2, 2, 2, "Marneus Calgar Chapter Master");
-        ultraMarines.addCreature(marneusCalgarChapterMaster);
-        Creature lionElJohnson = new Creature(3, 3, 3, "Lion El Johnson");
-        darkAngels.addCreature(lionElJohnson);
-        Creature robouteGuilliman = new Creature(3, 3, 3, "Roboute Guilliman");
-        ultraMarines.addCreature(robouteGuilliman);
+        Gson gson = new Gson();
+
+        // Read JSON from a file
+        try (Reader reader = new FileReader("src/main/java/edu/qasmt/nikita/mtg/DarkAngels.json")) {
+            Creature[] userArray = new Gson().fromJson(reader, Creature[].class);
+            for(Creature creature : userArray) {
+                System.out.println(creature.getName());
+                darkAngels.addCreature(creature);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (Reader reader = new FileReader("src/main/java/edu/qasmt/nikita/mtg/Ultramarines.json")) {
+            Creature[] userArray = new Gson().fromJson(reader, Creature[].class);
+            for(Creature creature : userArray) {
+                System.out.println(creature.getName());
+                ultraMarines.addCreature(creature);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
         String choice = scanner.nextLine();
         while ((!Objects.equals(choice, "1")) && (!Objects.equals(choice, "2"))) {

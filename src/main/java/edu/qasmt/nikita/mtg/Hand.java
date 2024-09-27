@@ -20,7 +20,7 @@ public class Hand {
     }
     public void getCreatures() {
         for (int i = 0; i < creatures.size(); i++) {
-            System.out.println("(" + i + ") " + creatures.get(i).getName() + "Power/Toughness (" + creatures.get(i).getPower() + "/" + creatures.get(i).getToughness() + ")" + " and mana cost of " + creatures.get(i).getManaCost());
+            System.out.println("(" + i + ") " + creatures.get(i).getName() + " Power/Toughness (" + creatures.get(i).getPower() + "/" + creatures.get(i).getToughness() + ")" + " and mana cost of " + creatures.get(i).getManaCost());
         }
     }
     public int getNumCreatures() {
