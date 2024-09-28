@@ -1,0 +1,23 @@
+[
+  {
+    "power": 2,
+    "toughness": 1,
+    "manaCost": 2,
+    "name": "We March for Macragge!",
+    "positive":  true
+  },
+  {
+    "power": 2,
+    "toughness": 0,
+    "manaCost": 1,
+    "name": "Whilst we draw breath, we stand!",
+    "positive":  true
+  },
+  {
+    "power": -2,
+    "toughness": -2,
+    "manaCost": 3,
+    "name": "Die, traitor",
+    "positive":  false
+  }
+]

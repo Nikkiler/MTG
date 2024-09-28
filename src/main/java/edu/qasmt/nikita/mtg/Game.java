@@ -6,8 +6,6 @@ import java.io.Reader;
 import java.util.Objects;
 import java.util.Scanner;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
 
 
 public class Game {
@@ -34,6 +32,24 @@ public class Game {
             for(Creature creature : userArray) {
                 System.out.println(creature.getName());
                 ultraMarines.addCreature(creature);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (Reader reader = new FileReader("src/main/java/edu/qasmt/nikita/mtg/DarkAngelsSpells.json")) {
+            Spell[] userArray = new Gson().fromJson(reader, Spell[].class);
+            for(Spell spell : userArray) {
+                System.out.println(spell.getName());
+                darkAngels.addSpell(spell);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (Reader reader = new FileReader("src/main/java/edu/qasmt/nikita/mtg/UltramarinesSpells.json")) {
+            Spell[] userArray = new Gson().fromJson(reader, Spell[].class);
+            for(Spell spell : userArray) {
+                System.out.println(spell.getName());
+                ultraMarines.addSpell(spell);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -125,13 +141,17 @@ public class Game {
             getCreature = scanner.nextLine().charAt(0);
         }
         if (getCreature == 'y') {
-            int numCreatureChoices = howMany(playerNum, scanner, "creature", "cast", (player1.getHand().getNumCreatures() - 1), player1);
+            int numCreatureChoices = howMany(playerNum, scanner, "creature", "play", (player1.getHand().getNumCreatures() - 1), player1);
             while (usableMana < player1.getHand().getManaCost(numCreatureChoices)) {
                 System.out.println("Player " + playerNum + " has " + usableMana + " usable mana");
                 System.out.println("And creature (" + numCreatureChoices + ") costs " + player1.getHand().getManaCost(numCreatureChoices) + " mana");
-                numCreatureChoices = howMany(playerNum, scanner, "creature", "cast", (player1.getHand().getNumCreatures() - 1), player1);
+                numCreatureChoices = howMany(playerNum, scanner, "creature", "play", (player1.getHand().getNumCreatures() - 1), player1);
             }
             player1.getHand().putCreatureOnBattlefield(player1Battlefield, numCreatureChoices);
+            usableMana -= player1.getHand().getManaCost(numCreatureChoices);
+        }
+        if (usableMana > 0) {
+            castSpell(scanner, player1Battlefield, player2Battlefield, player1, player2, playerNum, usableMana);
         }
         System.out.println("Would you like to attack?");
         System.out.println("y or n");
@@ -166,24 +186,14 @@ public class Game {
 
     }
     public static int howMany(int playerNum, Scanner scanner, String type, String toDo, int numberOf, Player player) {
-        if (toDo.equals("attack") || toDo.equals("defend") || toDo.equals("cast")) {
-            player.getBattlefield().getCreatures();
-            System.out.println("Which creature?");
-        } else {
-            System.out.println("Player " + playerNum + " how many " + type + " would you like to " + toDo + "? " + numberOf + " " + type);
-        }
+        howManyIfOfChoice(playerNum, type, toDo, numberOf, player);
         System.out.println("Please enter a number between 0 and " + numberOf);
 
         String doing = scanner.nextLine();
         boolean numCheck = isNumber(doing);
         if (!numCheck) {
             while (!numCheck) {
-                if (toDo.equals("attack") || toDo.equals("defend") || toDo.equals("cast")) {
-                    player.getBattlefield().getCreatures();
-                    System.out.println("Which creature?");
-                } else {
-                    System.out.println("Player " + playerNum + " how many " + type + " would you like to " + toDo + "? " + numberOf + " " + type);
-                }
+                howManyIfOfChoice(playerNum, type, toDo, numberOf, player);
                 System.out.println("Please enter an integer! between 0 and " + numberOf);
                 doing = scanner.nextLine();
                 numCheck = isNumber(doing);
@@ -191,22 +201,12 @@ public class Game {
         }
         int numLandTap = Integer.parseInt(doing);
         while (numLandTap < 0 || numLandTap > numberOf) {
-            if (toDo.equals("attack") || toDo.equals("defend") || toDo.equals("cast")) {
-                player.getBattlefield().getCreatures();
-                System.out.println("Which creature?");
-            } else {
-                System.out.println("Player " + playerNum + " how many " + type + " would you like to " + toDo + "? " + numberOf + " " + type);
-            }
+            howManyIfOfChoice(playerNum, type, toDo, numberOf, player);
             doing = scanner.nextLine();
             numCheck = isNumber(doing);
             if (!numCheck) {
                 while (!numCheck) {
-                    if (toDo.equals("attack") || toDo.equals("defend") || toDo.equals("cast")) {
-                        player.getBattlefield().getCreatures();
-                        System.out.println("Which creature?");
-                    } else {
-                        System.out.println("Player " + playerNum + " how many " + type + " would you like to " + toDo + "? " + numberOf + " " + type);
-                    }
+                    howManyIfOfChoice(playerNum, type, toDo, numberOf, player);
                     System.out.println("Please enter an integer! between 0 and " + numberOf);
                     doing = scanner.nextLine();
                     numCheck = isNumber(doing);
@@ -215,5 +215,56 @@ public class Game {
             numLandTap = Integer.parseInt(doing);
         }
         return numLandTap;
+    }
+
+    public static void howManyIfOfChoice(int playerNum, String type, String toDo, int numberOf, Player player) {
+        if (toDo.equals("attack") || toDo.equals("defend") || toDo.equals("casting") || toDo.equals("play")) {
+            player.getBattlefield().getCreatures();
+            System.out.println("Which creature?");
+        } else if (toDo.equals("cast")) {
+            player.getHand().getSpells();
+            System.out.println("Which spell would you like to use?");
+        } else {
+            System.out.println("Player " + playerNum + " how many " + type + " would you like to " + toDo + "? " + numberOf + " " + type);
+        }
+    }
+    public static void castSpell(Scanner scanner, Battlefield player1Battlefield, Battlefield player2Battlefield, Player player1, Player player2, int playerNum, int usableMana) {
+        System.out.println("Would you like to cast a spell?");
+        System.out.println("y or n");
+        char getCast = scanner.nextLine().charAt(0);
+        while (getCast != 'n' && getCast != 'y') {
+            System.out.println("Please enter a valid choice (y or n)");
+            getCast = scanner.nextLine().charAt(0);
+        }
+        if (getCast == 'y') {
+            if (player1Battlefield.getSize() > 0 && player2Battlefield.getSize() > 0) {
+                System.out.println("You do not have anything to cast a spell on!");
+            } else {
+                int castChoice = howMany(playerNum, scanner, "spell", "cast", (player1.getBattlefield().getSize() - 1), player1);
+                if (player1.getHand().getSpellCost(castChoice) > usableMana) {
+                    if (player1.getHand().getSpellPositive(castChoice)) {
+                        if (player1Battlefield.getSize() > 0) {
+                            System.out.println("Who (In your battle field) would you like to cast a spell on?");
+                            int yourCreatureCastChoice = howMany(playerNum, scanner, "spell", "casting", (player1.getBattlefield().getSize() - 1), player1);
+                            player1Battlefield.getCreature(yourCreatureCastChoice).changePower(player1.getHand().getSpellPower(yourCreatureCastChoice));
+                            player1Battlefield.getCreature(yourCreatureCastChoice).changeToughness(player1.getHand().getSpellToughness(yourCreatureCastChoice));
+                        } else {
+                            System.out.println("You do not have anything to cast a spell on!");
+                        }
+                    } else {
+                        if (player2Battlefield.getSize() > 0) {
+                            System.out.println("Who (In your  opponents battle field) would you like to cast a spell on?");
+                            int yourCreatureCastChoice = howMany(playerNum, scanner, "spell", "casting", (player2.getBattlefield().getSize() - 1), player2);
+                            player2Battlefield.getCreature(yourCreatureCastChoice).changePower(player1.getHand().getSpellPower(yourCreatureCastChoice));
+                            player2Battlefield.getCreature(yourCreatureCastChoice).changeToughness(player1.getHand().getSpellToughness(yourCreatureCastChoice));
+                        } else {
+                            System.out.println("You do not have anything to cast a spell on!");
+                        }
+                    }
+                } else {
+                    System.out.println("You do not have enough mana to cast a spell!");
+                }
+            }
+        }
     }
 }

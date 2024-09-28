@@ -1,0 +1,23 @@
+[
+  {
+    "power": 2,
+    "toughness": 1,
+    "manaCost": 2,
+    "name": "Initiate the Dreadwing Protocol",
+    "positive":  true
+  },
+  {
+    "power": 2,
+    "toughness": 0,
+    "manaCost": 1,
+    "name": "For the Lion and Caliban!",
+    "positive":  true
+  },
+  {
+    "power": -1,
+    "toughness": -2,
+    "manaCost": 2,
+    "name": "Repent!",
+    "positive":  false
+  }
+]
