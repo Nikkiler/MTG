@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Hand {
     private ArrayList<Creature> creatures = new ArrayList<Creature>();
     private ArrayList<Spell> spells = new ArrayList<Spell>();
-    private int numLandsInHand = 3;
+    private int numLandsInHand = 5;
     public void putLandOnBattlefield(Battlefield battlefield) {
         numLandsInHand--;
         battlefield.addLands();
@@ -51,6 +51,10 @@ public class Hand {
     public int getManaCost(int num) {
         int cost = creatures.get(num).getManaCost();
         return cost;
+    }
+    public String getName(int num) {
+        String nameClone = creatures.get(num).getName();
+        return nameClone;
     }
     public void addCreature(Creature creature) {
         creatures.add(creature);

@@ -95,7 +95,7 @@ public class Game {
             player1.setHand(ultraMarines);
             player2.setHand(darkAngels);
         }
-        for (int i = 1; i < 4; i++) {
+        for (int i = 1; i < 7; i++) {
             System.out.println("Round " + i + ":");
             playerTurn(player1, player2, player1Battlefield, player2Battlefield, 1, scanner);
             System.out.println("Player 1 your Turn has ended");
@@ -129,39 +129,51 @@ public class Game {
         }
         if (getLands == 'y') {
             player1.getHand().putLandOnBattlefield(player1Battlefield);
+        } else {
+            System.out.println("You have chosen not to place a land");
         }
         int usableMana = howMany(playerNum, scanner, "land", "tap", player1.getBattlefield().getLands(), player1);
-        System.out.println("Player" + playerNum + " has " + usableMana + " usable mana");
-        player1.getHand().getCreatures();
-        System.out.println("Would you like to play a creature?");
-        System.out.println("y or n");
-        char getCreature = scanner.nextLine().charAt(0);
-        while (getCreature != 'n' && getCreature != 'y') {
-            System.out.println("Please enter a valid choice (y or n)");
-            getCreature = scanner.nextLine().charAt(0);
-        }
-        if (getCreature == 'y') {
-            int numCreatureChoices = howMany(playerNum, scanner, "creature", "play", (player1.getHand().getNumCreatures() - 1), player1);
-            while (usableMana < player1.getHand().getManaCost(numCreatureChoices)) {
-                System.out.println("Player " + playerNum + " has " + usableMana + " usable mana");
-                System.out.println("And creature (" + numCreatureChoices + ") costs " + player1.getHand().getManaCost(numCreatureChoices) + " mana");
-                numCreatureChoices = howMany(playerNum, scanner, "creature", "play", (player1.getHand().getNumCreatures() - 1), player1);
+        if (usableMana == 0) {
+            System.out.println("You have no mana and therefor cannot place creatures or cast spells");
+        } else {
+            System.out.println("Player" + playerNum + " has " + usableMana + " usable mana");
+            player1.getHand().getCreatures();
+            System.out.println("Would you like to play a creature?");
+            System.out.println("y or n");
+            char getCreature = scanner.nextLine().charAt(0);
+            while (getCreature != 'n' && getCreature != 'y') {
+                System.out.println("Please enter a valid choice (y or n)");
+                getCreature = scanner.nextLine().charAt(0);
             }
-            player1.getHand().putCreatureOnBattlefield(player1Battlefield, numCreatureChoices);
-            usableMana -= player1.getHand().getManaCost(numCreatureChoices);
+            if (getCreature == 'y' && player1.getHand().getManaCost(0) >= usableMana) {
+                int numCreatureChoices = howMany(playerNum, scanner, "creature", "play", (player1.getHand().getNumCreatures() - 1), player1);
+                while (usableMana < player1.getHand().getManaCost(numCreatureChoices)) {
+                    System.out.println("Player " + playerNum + " has " + usableMana + " usable mana");
+                    System.out.println("And creature (" + numCreatureChoices + ") costs " + player1.getHand().getManaCost(numCreatureChoices) + " mana");
+                    numCreatureChoices = howMany(playerNum, scanner, "creature", "play", (player1.getHand().getNumCreatures() - 1), player1);
+                }
+                System.out.println(player1.getHand().getName(numCreatureChoices) + " has been added to your battlefield");
+                usableMana -= player1.getHand().getManaCost(numCreatureChoices);
+                player1.getHand().putCreatureOnBattlefield(player1Battlefield, numCreatureChoices);
+            } else {
+                System.out.println("You either do not have enough mana for any creatures or you have selected not to tap at all");
+            }
+            if (usableMana > 0) {
+                castSpell(scanner, player1Battlefield, player2Battlefield, player1, player2, playerNum, usableMana);
+            } else {
+                System.out.println("You do not have enough mana to cast any spells.");
+            }
+
         }
-        if (usableMana > 0) {
-            castSpell(scanner, player1Battlefield, player2Battlefield, player1, player2, playerNum, usableMana);
-        }
-        System.out.println("Would you like to attack?");
-        System.out.println("y or n");
-        char getAttack = scanner.nextLine().charAt(0);
-        while (getAttack != 'n' && getAttack != 'y') {
-            System.out.println("Please enter a valid choice (y or n)");
-            getAttack = scanner.nextLine().charAt(0);
-        }
-        if (getAttack == 'y') {
-            if (player1Battlefield.getSize() > 0) {
+        if (player1Battlefield.getSize() > 0) {
+            System.out.println("Would you like to attack?");
+            System.out.println("y or n");
+            char getAttack = scanner.nextLine().charAt(0);
+            while (getAttack != 'n' && getAttack != 'y') {
+                System.out.println("Please enter a valid choice (y or n)");
+                getAttack = scanner.nextLine().charAt(0);
+            }
+            if (getAttack == 'y') {
                 System.out.println("Which creature would you like to attack with?");
                 int attackChoice = howMany(playerNum, scanner, "creature", "attack", (player1.getBattlefield().getSize() - 1), player1);
                 if (player2Battlefield.getSize() < 1) {
@@ -180,6 +192,8 @@ public class Game {
                         System.out.println("Attacker you did not succeed...");
                     }
                 }
+            } else {
+                System.out.println("You have chosen not to attack.");
             }
         }
 
@@ -218,12 +232,15 @@ public class Game {
     }
 
     public static void howManyIfOfChoice(int playerNum, String type, String toDo, int numberOf, Player player) {
-        if (toDo.equals("attack") || toDo.equals("defend") || toDo.equals("casting") || toDo.equals("play")) {
+        if (toDo.equals("attack") || toDo.equals("defend") || toDo.equals("casting")) {
             player.getBattlefield().getCreatures();
             System.out.println("Which creature?");
         } else if (toDo.equals("cast")) {
             player.getHand().getSpells();
             System.out.println("Which spell would you like to use?");
+        } else if (toDo.equals("play")) {
+            player.getHand().getCreatures();
+            System.out.println("Which creature?");
         } else {
             System.out.println("Player " + playerNum + " how many " + type + " would you like to " + toDo + "? " + numberOf + " " + type);
         }
