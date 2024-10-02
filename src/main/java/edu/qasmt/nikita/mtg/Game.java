@@ -15,7 +15,7 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         Hand darkAngels = new Hand();
         Hand ultraMarines = new Hand();
-        Gson gson = new Gson();
+        Currency currency = Currency.getInstance();
 
         // Read JSON from a file
         try (Reader reader = new FileReader("src/main/java/edu/qasmt/nikita/mtg/DarkAngels.json")) {
@@ -54,17 +54,23 @@ public class Game {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
-        String choice = scanner.nextLine();
-        while ((!Objects.equals(choice, "1")) && (!Objects.equals(choice, "2"))) {
-            System.out.println("Error Invalid Input");
-            System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper");
+        String choice = "";
+        while (!Objects.equals(choice, "3")) {
+            System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper, or (3) quit");
             choice = scanner.nextLine();
-        }
-        if (choice.equals("1")) {
-            game(player1, player2, darkAngels, ultraMarines, scanner);
-        } else {
-            System.out.println("This is still under construction.");
+            while ((!Objects.equals(choice, "1")) && (!Objects.equals(choice, "2"))  && (!Objects.equals(choice, "3"))) {
+                System.out.println("Error Invalid Input");
+                System.out.println("Choose between (1) Magic the Gathering and (2) Minesweeper, or (3) quit");
+                choice = scanner.nextLine();
+            }
+            if (choice.equals("1")) {
+                game(player1, player2, darkAngels, ultraMarines, scanner, currency);
+            } else if (choice.equals("2")) {
+                mineSweeper mineSweepers = new mineSweeper();
+                mineSweepers.mineSweeperGame(scanner, currency);
+            } else {
+                System.out.println("Thanks for playing!");
+            }
         }
     }
     public static int attack(Creature attacker, Creature defender) {
@@ -77,11 +83,12 @@ public class Game {
         }
         return attacking - defending;
     }
-    public static void game(Player player1, Player player2, Hand darkAngels, Hand ultraMarines, Scanner scanner) {
+    public static void game(Player player1, Player player2, Hand darkAngels, Hand ultraMarines, Scanner scanner, Currency currency) {
         Battlefield player1Battlefield = new Battlefield();
         Battlefield player2Battlefield = new Battlefield();
         player1.setBattlefield(player1Battlefield);
         player2.setBattlefield(player2Battlefield);
+        boolean extraManaCheck = false;
         System.out.println("Would you like to play the Dark Angels or the Ultramarines?");
         String deckChoice = scanner.nextLine();
         while (!Objects.equals(deckChoice, "Dark Angels") && !Objects.equals(deckChoice, "Ultramarines")) {
@@ -97,9 +104,20 @@ public class Game {
         }
         for (int i = 1; i < 7; i++) {
             System.out.println("Round " + i + ":");
-            playerTurn(player1, player2, player1Battlefield, player2Battlefield, 1, scanner);
+            extraManaCheck = spendCurrency(scanner, currency);
+            if (extraManaCheck) {
+                playerTurn(player1, player2, player1Battlefield, player2Battlefield, 1, scanner, 1);
+            } else {
+                playerTurn(player1, player2, player1Battlefield, player2Battlefield, 1, scanner, 0);
+            }
             System.out.println("Player 1 your Turn has ended");
-            playerTurn(player2, player1, player2Battlefield, player1Battlefield, 2, scanner);
+            extraManaCheck = spendCurrency(scanner, currency);
+            if (extraManaCheck) {
+                playerTurn(player2, player1, player2Battlefield, player1Battlefield, 2, scanner, 1);
+            } else {
+                playerTurn(player2, player1, player2Battlefield, player1Battlefield, 2, scanner, 0);
+            }
+            System.out.println("Player 2 your Turn has ended");
 
         }
         if (player1.getLife() > player2.getLife()) {
@@ -119,7 +137,7 @@ public class Game {
             return false;
         }
     }
-    public static void playerTurn(Player player1, Player player2, Battlefield player1Battlefield, Battlefield player2Battlefield, int playerNum, Scanner scanner) {
+    public static void playerTurn(Player player1, Player player2, Battlefield player1Battlefield, Battlefield player2Battlefield, int playerNum, Scanner scanner, int extraMana) {
         System.out.println("Player " + playerNum + " it is your turn would you like to place a land? You have " + player1.getHand().getNumLandsInHand() + " lands");
         System.out.println("y or n");
         char getLands = scanner.nextLine().charAt(0);
@@ -132,7 +150,7 @@ public class Game {
         } else {
             System.out.println("You have chosen not to place a land");
         }
-        int usableMana = howMany(playerNum, scanner, "land", "tap", player1.getBattlefield().getLands(), player1);
+        int usableMana = howMany(playerNum, scanner, "land", "tap", player1.getBattlefield().getLands(), player1) + extraMana;
         if (usableMana == 0) {
             System.out.println("You have no mana and therefor cannot place creatures or cast spells");
         } else {
@@ -282,6 +300,22 @@ public class Game {
                     System.out.println("You do not have enough mana to cast a spell!");
                 }
             }
+        }
+    }
+    public static boolean spendCurrency(Scanner scanner, Currency currency) {
+        System.out.println("Player would you like to spend 100 currency to get one more mana?");
+        System.out.println("y or n");
+        char getBuy = scanner.nextLine().charAt(0);
+        while (getBuy != 'n' && getBuy != 'y') {
+            System.out.println("Please enter a valid choice (y or n)");
+            System.out.println("Player would you like to spend 100 currency to get one more mana?");
+        }
+        if (getBuy == 'y') {
+            currency.changeMoney(-100);
+            return true;
+        } else {
+            System.out.println("You have chosen not to buy one more mana!");
+            return false;
         }
     }
 }
