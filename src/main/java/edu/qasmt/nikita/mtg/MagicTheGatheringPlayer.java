@@ -1,8 +1,6 @@
 package edu.qasmt.nikita.mtg;
 
-import java.util.Scanner;
-
-public class Player {
+public class MagicTheGatheringPlayer {
     private int life = 20;
     private Battlefield battlefield;
     private Hand hand;
